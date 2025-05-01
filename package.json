@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "description": "Better aggregated chnroutes, but even better",
+  "type": "commonjs",
   "scripts": {
     "lint": "eslint --format=sukka .",
     "build": "node -r @swc-node/register index.ts"
@@ -12,10 +13,11 @@
   "license": "MIT",
   "dependencies": {
     "fast-cidr-tools": "^0.3.2",
-    "foxts": "^3.0.1"
+    "foxts": "^3.1.1"
   },
   "devDependencies": {
     "@swc-node/register": "^1.10.10",
+    "@types/node": "^22.15.3",
     "eslint": "^9.25.1",
     "eslint-config-sukka": "^6.18.2",
     "eslint-formatter-sukka": "^6.18.2",

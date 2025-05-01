@@ -12,12 +12,15 @@ importers:
         specifier: ^0.3.2
         version: 0.3.2
       foxts:
-        specifier: ^3.0.1
-        version: 3.0.1
+        specifier: ^3.1.1
+        version: 3.1.1
     devDependencies:
       '@swc-node/register':
         specifier: ^1.10.10
         version: 1.10.10(@swc/core@1.11.24)(@swc/types@0.1.21)(typescript@5.8.3)
+      '@types/node':
+        specifier: ^22.15.3
+        version: 22.15.3
       eslint:
         specifier: ^9.25.1
         version: 9.25.1
@@ -298,6 +301,9 @@ packages:
 
   '@types/json-schema@7.0.15':
     resolution: {integrity: sha512-5+fP8P8MFNC+AyZCDxrB2pkZFPGzqQWUzpSeuuVLvm8VMcorNYavBqoFcxK8bQz4Qsbn4oUEEem4wDLfcysGHA==}
+
+  '@types/node@22.15.3':
+    resolution: {integrity: sha512-lX7HFZeHf4QG/J7tBZqrCAXwz9J5RD56Y6MpP0eJkka8p+K0RY/yBTW7CYFJ4VGCclxqOLKmiGP5juQc6MKgcw==}
 
   '@typescript-eslint/eslint-plugin@8.31.1':
     resolution: {integrity: sha512-oUlH4h1ABavI4F0Xnl8/fOtML/eu8nI2A1nYd+f+55XI0BLu+RIqKoCiZKNo6DtqZBEQm5aNKA20G3Z5w3R6GQ==}
@@ -734,8 +740,8 @@ packages:
   flatted@3.3.3:
     resolution: {integrity: sha512-GX+ysw4PBCz0PzosHDepZGANEuFCMLrnRTiEy9McGjmkCQYwRq4A/X786G/fjM/+OjsWSU1ZrY5qyARZmO/uwg==}
 
-  foxts@3.0.1:
-    resolution: {integrity: sha512-c8t5vWw0VrUZ3QnBarcj542zLqEmbnXswMv5NzmKDy1MXPr8wMS+9BJT3iDZKfrmF3ZF3P30Mi8iDsdHCiEWuA==}
+  foxts@3.1.1:
+    resolution: {integrity: sha512-ZPKa4ZA/daMu+V441qGUSaC3WH3lkumQeHGvMVtxFC1iIehNbwZKFNlk3KXIO/4PnOz0xZpTohKP0Y5cBnULMQ==}
 
   function-bind@1.1.2:
     resolution: {integrity: sha512-7XHNxH7qX9xG5mIwxkhumTox/MIRNcOgDrxWsMt2pAr23WHp6MrRlN7FBSFpCpr+oVO0F744iUgR82nJMfG2SA==}
@@ -1036,6 +1042,9 @@ packages:
     engines: {node: '>=14.17'}
     hasBin: true
 
+  undici-types@6.21.0:
+    resolution: {integrity: sha512-iwDZqg0QAGrg9Rav5H4n0M64c3mkR59cJ6wQp+7C4nI0gsmExaedaYLNO44eT4AtBBwjbTiGPMlt2Md0T9H9JQ==}
+
   unrs-resolver@1.7.2:
     resolution: {integrity: sha512-BBKpaylOW8KbHsu378Zky/dGh4ckT/4NW/0SHRABdqRLcQJ2dAOjDo9g97p04sWflm0kqPqpUatxReNV/dqI5A==}
 
@@ -1298,6 +1307,10 @@ snapshots:
 
   '@types/json-schema@7.0.15': {}
 
+  '@types/node@22.15.3':
+    dependencies:
+      undici-types: 6.21.0
+
   '@typescript-eslint/eslint-plugin@8.31.1(@typescript-eslint/parser@8.31.1(eslint@9.25.1)(typescript@5.8.3))(eslint@9.25.1)(typescript@5.8.3)':
     dependencies:
       '@eslint-community/regexpp': 4.12.1
@@ -1540,7 +1553,7 @@ snapshots:
       eslint-plugin-regexp: 2.7.0(eslint@9.25.1)
       eslint-plugin-sukka: 6.18.2(eslint@9.25.1)(typescript@5.8.3)
       eslint-plugin-unused-imports: 4.1.4(@typescript-eslint/eslint-plugin@8.31.1(@typescript-eslint/parser@8.31.1(eslint@9.25.1)(typescript@5.8.3))(eslint@9.25.1)(typescript@5.8.3))(eslint@9.25.1)
-      foxts: 3.0.1
+      foxts: 3.1.1
       jsonc-eslint-parser: 2.4.0
       picocolors: 1.1.1
       typescript-eslint: 8.31.1(eslint@9.25.1)(typescript@5.8.3)
@@ -1655,7 +1668,7 @@ snapshots:
       '@eslint-sukka/shared': 6.18.2(eslint@9.25.1)(typescript@5.8.3)
       '@typescript-eslint/type-utils': 8.31.1(eslint@9.25.1)(typescript@5.8.3)
       '@typescript-eslint/utils': 8.31.1(eslint@9.25.1)(typescript@5.8.3)
-      foxts: 3.0.1
+      foxts: 3.1.1
     optionalDependencies:
       typescript: 5.8.3
     transitivePeerDependencies:
@@ -1789,7 +1802,7 @@ snapshots:
 
   flatted@3.3.3: {}
 
-  foxts@3.0.1: {}
+  foxts@3.1.1: {}
 
   function-bind@1.1.2: {}
 
@@ -2055,6 +2068,8 @@ snapshots:
       - supports-color
 
   typescript@5.8.3: {}
+
+  undici-types@6.21.0: {}
 
   unrs-resolver@1.7.2:
     dependencies:
