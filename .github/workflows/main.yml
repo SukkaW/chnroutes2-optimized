@@ -1,0 +1,62 @@
+name: Daily Collect
+on:
+  push:
+    branches:
+      - master
+  schedule:
+    # run per hour
+    - cron: '0 * * * *'
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-24.04
+
+    steps:
+      # - name: Tune GitHub-hosted runner network
+      #   # https://github.com/actions/runner-images/issues/1187
+      #   uses: smorimoto/tune-github-hosted-runner-network@v1
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: pnpm/action-setup@v4
+        with:
+          run_install: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: ".node-version"
+          cache: "pnpm"
+      - run: pnpm install
+      - run: pnpm run build
+      - uses: peaceiris/actions-gh-pages@v4
+        with:
+          publish_dir: public
+          external_repository: SukkaLab/chnroutes2.cdn.skk.moe
+          publish_branch: master
+          personal_token: ${{ secrets.GIT_DEPLOY_TOKEN }}
+          user_name: ${{ secrets.GIT_DEPLOY_USER }}
+          user_email: ${{ secrets.GIT_DEPLOY_EMAIL }}
+      - uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy public --project-name=chnroutes2-optimized --commit-dirty=true --branch=master
+      - run: |
+          mkdir -p /tmp/public/
+          echo "Last updated at $(date -u)" > /tmp/public/last-run.txt
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: /tmp/public
+          keep_files: true
+          force_orphan: true
+          publish_branch: dist
