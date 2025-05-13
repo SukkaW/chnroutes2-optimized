@@ -4,6 +4,7 @@ import { appendArrayInPlace } from 'foxts/append-array-in-place';
 import { exclude as excludeCidr, contains as containsCidr, merge as mergeCidrs } from 'fast-cidr-tools';
 import path from 'node:path';
 import fs from 'node:fs';
+import { createCompareSource, fileEqualWithCommentComparator } from 'foxts/compare-source';
 
 const PUBLIC_DIR = path.join(__dirname, 'public');
 
@@ -22,7 +23,7 @@ function withPadding(title: string, contents: string[]) {
   appendArrayInPlace(results, contents);
   results.push('################## EOF ##################', '');
 
-  return results.join('\n');
+  return results;
 }
 
 // https://en.wikipedia.org/wiki/Reserved_IP_addresses
@@ -167,14 +168,33 @@ const PROBE_CHN_CIDR_V4 = [
   );
 
   fs.mkdirSync(PUBLIC_DIR, { recursive: true });
-  fs.writeFileSync(
-    path.join(PUBLIC_DIR, 'chnroutes.txt'),
+
+
+  await compareAndWriteFile(
     withPadding('China IPv4 CIDRs', chnCidrs),
-    { encoding: 'utf-8' }
+    'https://chnroutes2.cdn.skk.moe/chnroutes.txt',
+    path.join(PUBLIC_DIR, 'chnroutes.txt'),
   );
-  fs.writeFileSync(
-    path.join(PUBLIC_DIR, 'reversed-chnroutes.txt'),
+  await compareAndWriteFile(
     withPadding('Reversed China IPv4 CIDRs', reversedChnCidrs),
-    { encoding: 'utf-8' }
-  );
+    'https://chnroutes2.cdn.skk.moe/reversed-chnroutes.txt',
+    path.join(PUBLIC_DIR, 'reversed-chnroutes.txt'),
+  )
 })();
+
+const fileEqual = createCompareSource(fileEqualWithCommentComparator);
+async function compareAndWriteFile(source: string[], targetUrl: string, filePath: string) {
+  if (await fileEqual(
+    source,
+    await fetch(targetUrl).then(res => nullthrow(res.body).pipeThrough(new TextDecoderStream()).pipeThrough(new TextLineStream()))
+  )) {
+    console.log(`Writing file: ${filePath}`);
+    fs.writeFileSync(
+      filePath,
+      source.join('\n').trim() + '\n',
+      { encoding: 'utf-8' }
+    );
+  } else {
+    console.log(`Skipping writing file: ${filePath}`);
+  }
+}
