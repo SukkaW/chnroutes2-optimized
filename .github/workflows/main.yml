@@ -44,6 +44,7 @@ jobs:
           personal_token: ${{ secrets.GIT_DEPLOY_TOKEN }}
           user_name: ${{ secrets.GIT_DEPLOY_USER }}
           user_email: ${{ secrets.GIT_DEPLOY_EMAIL }}
+          keep_files: true
       - uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
