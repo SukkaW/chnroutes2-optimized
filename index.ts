@@ -1,10 +1,13 @@
 import { TextLineStream } from 'foxts/text-line-stream';
-import { nullthrow } from 'foxts/guard';
+import { invariant, nullthrow } from 'foxts/guard';
 import { appendArrayInPlace } from 'foxts/append-array-in-place';
 import { exclude as excludeCidr, contains as containsCidr, merge as mergeCidrs } from 'fast-cidr-tools';
 import path from 'node:path';
 import fs from 'node:fs';
 import { createCompareSource, fileEqualWithCommentComparator } from 'foxts/compare-source';
+import { Readable } from 'node:stream';
+import { pipeline } from 'node:stream/promises';
+import readline from 'node:readline';
 
 const PUBLIC_DIR = path.join(__dirname, 'public');
 
@@ -184,10 +187,12 @@ const PROBE_CHN_CIDR_V4 = [
 
 const fileEqual = createCompareSource(fileEqualWithCommentComparator);
 async function compareAndWriteFile(source: string[], targetUrl: string, filePath: string) {
-  if (await fileEqual(
+  const resp = await fetch(targetUrl);
+
+  if (!(await fileEqual(
     source,
-    await fetch(targetUrl).then(res => nullthrow(res.body).pipeThrough(new TextDecoderStream()).pipeThrough(new TextLineStream()))
-  )) {
+    nullthrow(resp.clone().body).pipeThrough(new TextDecoderStream(undefined, { fatal: true })).pipeThrough(new TextLineStream({ skipEmptyLines: true })),
+  ))) {
     console.log(`Writing file: ${filePath}`);
     fs.writeFileSync(
       filePath,
@@ -195,6 +200,10 @@ async function compareAndWriteFile(source: string[], targetUrl: string, filePath
       { encoding: 'utf-8' }
     );
   } else {
-    console.log(`Skipping writing file: ${filePath}`);
+    console.log('Use previous file:', filePath);
+    await pipeline(
+      Readable.fromWeb(nullthrow(resp.clone().body) as any),
+      fs.createWriteStream(filePath)
+    );
   }
 }
