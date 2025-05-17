@@ -45,11 +45,11 @@ jobs:
           user_name: ${{ secrets.GIT_DEPLOY_USER }}
           user_email: ${{ secrets.GIT_DEPLOY_EMAIL }}
           keep_files: true
-      - uses: cloudflare/wrangler-action@v3
-        with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy public --project-name=chnroutes2-optimized --commit-dirty=true --branch=master
+      # - uses: cloudflare/wrangler-action@v3
+      #   with:
+      #     apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      #     accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      #     command: pages deploy public --project-name=chnroutes2-optimized --commit-dirty=true --branch=master
       - run: |
           mkdir -p /tmp/public/
           echo "Last updated at $(date -u)" > /tmp/public/last-run.txt
