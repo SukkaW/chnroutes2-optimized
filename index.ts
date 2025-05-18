@@ -202,8 +202,8 @@ async function compareAndWriteFile(source: string[], targetUrl: string, filePath
   } else {
     console.log('Use previous file:', filePath);
     await pipeline(
-      Readable.fromWeb(nullthrow(resp.clone().body) as any),
-      fs.createWriteStream(filePath)
+      nullthrow(resp.clone().body),
+      fs.createWriteStream(filePath, 'utf-8')
     );
   }
 }
