@@ -103,6 +103,9 @@ const CN_CIDR_MISSING_IN_CHNROUTE = [
   // Xiamen Kuaikuai
   '180.188.36.0/22', // no route globally
 
+  // Aofei
+  '121.46.20.0/22', // PcCW & NTT at global
+
   // Baidu Public DNS
   '180.76.76.0/24',
   // Ali Public DNS
