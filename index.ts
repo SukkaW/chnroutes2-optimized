@@ -164,12 +164,18 @@ const PROBE_CHN_CIDR_V4 = [
     true
   );
 
+  const missingProbes: string[] = [];
+
   for (const probeIp of PROBE_CHN_CIDR_V4) {
-    if (!containsCidr(chnCidrs, PROBE_CHN_CIDR_V4)) {
-      const err = new TypeError('chnroutes missing probe IP');
-      err.cause = probeIp;
-      throw err;
+    if (!containsCidr(chnCidrs, [probeIp])) {
+      missingProbes.push(probeIp);
     }
+  }
+
+  if (missingProbes.length > 0) {
+      const err = new TypeError('chnroutes missing probe IP');
+      err.cause = missingProbes;
+      throw err;
   }
 
   const reversedChnCidrs = mergeCidrs(
