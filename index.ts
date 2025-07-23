@@ -104,7 +104,12 @@ const CN_CIDR_MISSING_IN_CHNROUTE = [
   '180.188.36.0/22', // no route globally
 
   // Aofei
-  '121.46.20.0/22', // PcCW & NTT at global
+  '121.46.20.0/22', // PCCW & NTT at global
+
+  // AS139180
+  '202.189.4.0/22',
+  '202.189.8.0/22',
+  '202.189.12.0/22',
 
   // Baidu Public DNS
   '180.76.76.0/24',
@@ -129,7 +134,14 @@ const PROBE_CHN_CIDR_V4 = [
   // NetEase Hangzhou
   '223.252.196.38',
   // Aliyun ShenZhen
-  '120.78.92.171'
+  '120.78.92.171',
+  // AS139180
+  '202.189.16.1',
+  // AS135391 Aofei
+  '121.46.156.1',
+  // wy.com.cn
+  '42.157.128.1',
+  '42.157.192.1'
 ];
 
 (async () => {
