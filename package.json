@@ -12,6 +12,7 @@
   "author": "SukkaW <https://skk.moe>",
   "license": "MIT",
   "dependencies": {
+    "@actions/core": "^1.11.1",
     "fast-cidr-tools": "^0.3.2",
     "foxts": "^3.3.1"
   },

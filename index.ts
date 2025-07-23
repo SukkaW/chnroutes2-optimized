@@ -1,13 +1,12 @@
 import { TextLineStream } from 'foxts/text-line-stream';
-import { invariant, nullthrow } from 'foxts/guard';
+import { nullthrow } from 'foxts/guard';
 import { appendArrayInPlace } from 'foxts/append-array-in-place';
 import { exclude as excludeCidr, contains as containsCidr, merge as mergeCidrs } from 'fast-cidr-tools';
 import path from 'node:path';
 import fs from 'node:fs';
 import { createCompareSource, fileEqualWithCommentComparator } from 'foxts/compare-source';
-import { Readable } from 'node:stream';
 import { pipeline } from 'node:stream/promises';
-import readline from 'node:readline';
+import * as actions from '@actions/core';
 
 const PUBLIC_DIR = path.join(__dirname, 'public');
 
@@ -173,9 +172,11 @@ const PROBE_CHN_CIDR_V4 = [
   }
 
   if (missingProbes.length > 0) {
-      const err = new TypeError('chnroutes missing probe IP');
-      err.cause = missingProbes;
-      throw err;
+    actions.error(`The following probe IPs are not included in the chnroutes: ${missingProbes.join(', ')}`);
+
+    const err = new TypeError('chnroutes missing probe IP');
+    err.cause = missingProbes;
+    throw err;
   }
 
   const reversedChnCidrs = mergeCidrs(
@@ -193,38 +194,37 @@ const PROBE_CHN_CIDR_V4 = [
 
   fs.mkdirSync(PUBLIC_DIR, { recursive: true });
 
-
   await compareAndWriteFile(
     withPadding('China IPv4 CIDRs', chnCidrs),
     'https://chnroutes2.cdn.skk.moe/chnroutes.txt',
-    path.join(PUBLIC_DIR, 'chnroutes.txt'),
+    path.join(PUBLIC_DIR, 'chnroutes.txt')
   );
   await compareAndWriteFile(
     withPadding('Reversed China IPv4 CIDRs', reversedChnCidrs),
     'https://chnroutes2.cdn.skk.moe/reversed-chnroutes.txt',
-    path.join(PUBLIC_DIR, 'reversed-chnroutes.txt'),
-  )
+    path.join(PUBLIC_DIR, 'reversed-chnroutes.txt')
+  );
 })();
 
 const fileEqual = createCompareSource(fileEqualWithCommentComparator);
 async function compareAndWriteFile(source: string[], targetUrl: string, filePath: string) {
   const resp = await fetch(targetUrl);
 
-  if (!(await fileEqual(
+  if (await fileEqual(
     source,
-    nullthrow(resp.clone().body).pipeThrough(new TextDecoderStream(undefined, { fatal: true })).pipeThrough(new TextLineStream({ skipEmptyLines: true })),
-  ))) {
+    nullthrow(resp.clone().body).pipeThrough(new TextDecoderStream(undefined, { fatal: true })).pipeThrough(new TextLineStream({ skipEmptyLines: true }))
+  )) {
+    console.log('Use previous file:', filePath);
+    await pipeline(
+      nullthrow(resp.clone().body),
+      fs.createWriteStream(filePath, 'utf-8')
+    );
+  } else {
     console.log(`Writing file: ${filePath}`);
     fs.writeFileSync(
       filePath,
       source.join('\n').trim() + '\n',
       { encoding: 'utf-8' }
-    );
-  } else {
-    console.log('Use previous file:', filePath);
-    await pipeline(
-      nullthrow(resp.clone().body),
-      fs.createWriteStream(filePath, 'utf-8')
     );
   }
 }
