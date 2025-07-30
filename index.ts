@@ -105,6 +105,9 @@ const CN_CIDR_MISSING_IN_CHNROUTE = [
   // Aofei
   '121.46.20.0/22', // PCCW & NTT at global
 
+  // Beijing Goverment Cloud, AS4847, no route worldwide
+  '43.229.185.0/24',
+
   // AS139180
   '202.189.4.0/22',
   '202.189.8.0/22',
