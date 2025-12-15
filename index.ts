@@ -112,12 +112,10 @@ const CN_CIDR_MISSING_IN_CHNROUTE = [
   '202.189.4.0/22',
   '202.189.8.0/22',
   '202.189.12.0/22',
+  '202.189.16.0/21',
 
   // Baidu Public DNS
   '180.76.76.0/24',
-  // Ali Public DNS
-  '223.5.5.0/24',
-  '223.6.6.0/24',
   // Tencent DNSPod Public DNS
   '119.29.29.0/24',
   '119.28.28.0/24',
@@ -126,19 +124,22 @@ const CN_CIDR_MISSING_IN_CHNROUTE = [
   '1.12.34.0/24',
   // ByteDance Public DNS
   '180.184.1.0/24',
-  '180.184.2.0/24',
-  // 360 Public DNS
-  '101.198.198.0/24',
-  '101.198.199.0/24'
+  '180.184.2.0/24'
 ];
 
 const PROBE_CHN_CIDR_V4 = [
   // NetEase Hangzhou
-  '223.252.196.38',
+  // '223.252.196.38',
   // Aliyun ShenZhen
   '120.78.92.171',
-  // AS139180
-  '202.189.16.1',
+
+  // Ali Public DNS
+  '223.5.5.5',
+  '223.6.6.6',
+  // 360 Public DNS
+  '101.198.198.198',
+  '101.198.199.199',
+
   // AS135391 Aofei
   '121.46.4.1',
   // wy.com.cn
@@ -154,7 +155,7 @@ const PROBE_CHN_CIDR_V4 = [
 
   for await (
     let line of nullthrow((await fetch('https://raw.githubusercontent.com/misakaio/chnroutes2/master/chnroutes.txt')).body)
-      .pipeThrough(new TextDecoderStream(undefined, { fatal: true }))
+      .pipeThrough(new TextDecoderStream('utf-8', { fatal: true }))
       .pipeThrough(new TextLineStream({ skipEmptyLines: true }))
   ) {
     if (line.charCodeAt(0) === 35 /** # */) continue;
