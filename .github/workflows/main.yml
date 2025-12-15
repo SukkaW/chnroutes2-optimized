@@ -24,7 +24,7 @@ jobs:
       # - name: Tune GitHub-hosted runner network
       #   # https://github.com/actions/runner-images/issues/1187
       #   uses: smorimoto/tune-github-hosted-runner-network@v1
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
         with:
           persist-credentials: false
       - uses: pnpm/action-setup@v4
