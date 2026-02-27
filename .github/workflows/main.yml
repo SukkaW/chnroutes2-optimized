@@ -41,7 +41,7 @@ jobs:
           publish_dir: public
           external_repository: SukkaLab/chnroutes2.cdn.skk.moe
           publish_branch: master
-          personal_token: ${{ secrets.GIT_DEPLOY_TOKEN }}
+          deploy_key: ${{ secrets.GIT_DEPLOY_KEY }}
           user_name: ${{ secrets.GIT_DEPLOY_USER }}
           user_email: ${{ secrets.GIT_DEPLOY_EMAIL }}
           keep_files: true
