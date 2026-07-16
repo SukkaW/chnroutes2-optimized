@@ -5,7 +5,7 @@ on:
       - master
   schedule:
     # run per 2 hours
-    - cron: '0 */2 * * *'
+    - cron: "0 */2 * * *"
   workflow_dispatch:
 
 concurrency:
@@ -24,10 +24,10 @@ jobs:
       # - name: Tune GitHub-hosted runner network
       #   # https://github.com/actions/runner-images/issues/1187
       #   uses: smorimoto/tune-github-hosted-runner-network@v1
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           persist-credentials: false
-      - uses: pnpm/action-setup@v4
+      - uses: pnpm/action-setup@v6
         with:
           run_install: false
       - uses: actions/setup-node@v6

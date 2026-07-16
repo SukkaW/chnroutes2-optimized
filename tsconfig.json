@@ -4,6 +4,9 @@
     "target": "es2024",
     "module": "ESNext",
     "moduleResolution": "bundler",
+    "types": [
+      "node"
+    ],
     "resolveJsonModule": true,
     "isolatedModules": true,
     "esModuleInterop": true,
