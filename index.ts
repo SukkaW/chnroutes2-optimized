@@ -6,7 +6,6 @@ import path from 'node:path';
 import fs from 'node:fs';
 import { createCompareSource, fileEqualWithCommentComparator } from 'foxts/compare-source';
 import { pipeline } from 'node:stream/promises';
-import * as actions from '@actions/core';
 
 const PUBLIC_DIR = path.join(__dirname, 'public');
 
@@ -179,7 +178,9 @@ const PROBE_CHN_CIDR_V4 = [
   }
 
   if (missingProbes.length > 0) {
-    actions.error(`The following probe IPs are not included in the chnroutes: ${missingProbes.join(', ')}`);
+    const message = `The following probe IPs are not included in the chnroutes: ${missingProbes.join(', ')}`;
+    console.error(message);
+    appendGitHubActionsRunSummary(`> [!CAUTION]\n> ${message}`);
 
     const err = new TypeError('chnroutes missing probe IP');
     err.cause = missingProbes;
@@ -234,4 +235,10 @@ async function compareAndWriteFile(source: string[], targetUrl: string, filePath
       { encoding: 'utf-8' }
     );
   }
+}
+
+function appendGitHubActionsRunSummary(markdown: string) {
+  const summaryFile = process.env.GITHUB_STEP_SUMMARY;
+  if (!summaryFile) return;
+  fs.appendFileSync(summaryFile, markdown.endsWith('\n') ? markdown : markdown + '\n', { encoding: 'utf-8' });
 }
