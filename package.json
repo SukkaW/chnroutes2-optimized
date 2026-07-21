@@ -16,14 +16,14 @@
     "foxts": "^5.8.0"
   },
   "devDependencies": {
-    "@eslint-sukka/node": "^8.13.5",
-    "@swc-node/register": "^1.11.1",
-    "@swc/core": "^1.15.43",
+    "@eslint-sukka/node": "^8.13.6",
+    "@swc-node/register": "^1.12.1",
+    "@swc/core": "^1.15.46",
     "@types/node": "^22.20.1",
     "eslint": "^10.7.0",
-    "eslint-config-sukka": "^8.13.5",
-    "eslint-formatter-sukka": "^8.13.5",
+    "eslint-config-sukka": "^8.13.6",
+    "eslint-formatter-sukka": "^8.13.6",
     "typescript": "^6.0.3"
   },
-  "packageManager": "pnpm@11.13.1"
+  "packageManager": "pnpm@11.15.1"
 }
