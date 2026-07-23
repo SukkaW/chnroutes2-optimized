@@ -44,7 +44,6 @@ jobs:
       - run: pnpm install
       - run: pnpm run build
       - uses: peaceiris/actions-gh-pages@v4
-        background: true
         with:
           publish_dir: public
           external_repository: SukkaLab/chnroutes2.cdn.skk.moe
@@ -63,7 +62,6 @@ jobs:
           echo "Last updated at $(date -u)" > /tmp/public/last-run.txt
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v4
-        background: true
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: /tmp/public
