@@ -107,6 +107,11 @@ const CN_CIDR_MISSING_IN_CHNROUTE = [
   // Beijing Goverment Cloud, AS4847, no route worldwide
   '43.229.185.0/24',
 
+  // AS58850 Bloomberg Beijing CN
+  '103.251.204.0/24',
+  '103.251.205.0/24',
+  '103.251.207.0/24',
+
   // AS139180
   '202.189.4.0/22',
   '202.189.8.0/22',
