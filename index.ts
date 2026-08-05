@@ -176,7 +176,8 @@ const PROBE_CHN_CIDR_V4 = [
 
   const missingProbes: string[] = [];
 
-  for (const probeIp of PROBE_CHN_CIDR_V4) {
+  for (let i = 0, len = PROBE_CHN_CIDR_V4.length; i < len; i++) {
+    const probeIp = PROBE_CHN_CIDR_V4[i];
     if (!containsCidr(chnCidrs, [probeIp])) {
       missingProbes.push(probeIp);
     }
